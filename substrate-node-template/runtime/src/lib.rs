@@ -6,13 +6,13 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use codec::{Encode, Decode};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_std::prelude::*;
+use codec::{Decode, Encode};
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
 use sp_runtime::{
-	ApplyExtrinsicResult, generic, create_runtime_str, impl_opaque_keys, MultiSignature,RuntimeDebug,
+	ApplyExtrinsicResult, generic, create_runtime_str, impl_opaque_keys, MultiSignature, RuntimeDebug,
 	transaction_validity::{TransactionValidity, TransactionSource},
 };
 use sp_runtime::traits::{
@@ -41,8 +41,7 @@ pub use frame_support::{
 	},
 };
 
-/// Import the template pallet.
-pub use pallet_template;
+pub use orml_tokens;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -73,8 +72,7 @@ pub type DigestItem = generic::DigestItem<Hash>;
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum CurrencyId {
-	Native,
-	TEST,
+	RTK,
 	DOT,
 	KSM,
 	BTC,
@@ -285,11 +283,6 @@ impl orml_tokens::Trait for Runtime {
 	type WeightInfo = ();
 }
 
-/// Configure the template pallet in pallets/template.
-impl pallet_template::Trait for Runtime {
-	type Event = Event;
-}
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
@@ -305,9 +298,9 @@ construct_runtime!(
 		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
+
 		Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
-		// Include the custom logic from the template pallet in the runtime.
-		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
+
 	}
 );
 

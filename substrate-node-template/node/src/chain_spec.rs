@@ -7,8 +7,6 @@ use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_finality_grandpa::AuthorityId as GrandpaId;
 use sp_runtime::traits::{Verify, IdentifyAccount};
 use sc_service::ChainType;
-use serde_json::map::Map;
-
 
 // The URL for the telemetry server.
 // const STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
@@ -41,10 +39,8 @@ pub fn authority_keys_from_seed(s: &str) -> (AuraId, GrandpaId) {
 }
 
 pub fn development_config() -> Result<ChainSpec, String> {
-	let mut properties = Map::new();
-	properties.insert("tokenSymbol".into(), "TEST".into());
-	properties.insert("tokenDecimals".into(), 15.into());
 	
+
 	let wasm_binary = WASM_BINARY.ok_or("Development wasm binary not available".to_string())?;
 
 	Ok(ChainSpec::from_genesis(
@@ -77,7 +73,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
 		// Protocol ID
 		None,
 		// Properties
-		Some(properties),
+		None,
 		// Extensions
 		None,
 	))
@@ -164,10 +160,9 @@ fn testnet_genesis(
 			.iter()
 			.flat_map(|x| {
 				vec![
-					(x.clone(), CurrencyId::TEST, 10u128.pow(16)),
 					(x.clone(), CurrencyId::DOT, 10u128.pow(16)),
-					(x.clone(), CurrencyId::KSM, 10u128.pow(16)),
 					(x.clone(), CurrencyId::BTC, 10u128.pow(16)),
+					(x.clone(), CurrencyId::RTK, 10u128.pow(16)),
 				]
 			})
 			.collect(),
