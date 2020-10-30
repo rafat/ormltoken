@@ -10,7 +10,28 @@
 
 types.json File used
 ```
-
+{
+    "CurrencyId": {
+        "_enum": [
+            "RTK",
+            "DOT",
+            "KSM",
+            "BTC"
+        ]
+    },
+    "CurrencyIdOf": "CurrencyId",
+    "Amount": "i128",
+    "AmountOf": "Amount",
+    "Order": {
+        "base_currency_id": "CurrencyId",
+        "base_amount": "Compact<Balance>",
+        "target_currency_id": "CurrencyId",
+        "target_amount": "Compact<Balance>",
+        "owner": "AccountId"
+    },
+    "OrderOf": "Order",
+    "OrderId": "u32"
+}
 ```
 
 
