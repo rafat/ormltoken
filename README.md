@@ -8,7 +8,7 @@
 
 <img src="https://github.com/rafat/ormltoken/blob/main/img/rtk.jpg"/>
 
-types.json File used
+types.json File used https://github.com/rafat/ormltoken/blob/main/substrate-node-template/types.json
 ```
 {
     "CurrencyId": {
